@@ -1,0 +1,9 @@
+*.py[ic]
+
+dist/
+
+.venv
+
+.env
+
+.vscode
