@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from click import group, argument
+from click import group, argument, option
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from .sleepy import make_client, create_app, handle_mention
@@ -30,6 +30,17 @@ def list_scheduled_messages():
     client = make_client(config.SLACK_USER_TOKEN)
     r = client.chat_scheduledMessages_list(
         channel=config.SLACK_CHANNEL_ID,
+    )
+    print(r.data)
+
+
+@cli.command()
+@option("--env", "-e", "env", default=config.ENV_LIST)
+def kong_env(env):
+    client = make_client(config.SLACK_USER_TOKEN)
+    r = client.chat_postMessage(
+        channel=config.KONG_ATSM,
+        text=f"<@{config.KONG}> branch on {env}",
     )
     print(r.data)
 
